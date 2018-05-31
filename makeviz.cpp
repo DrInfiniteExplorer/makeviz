@@ -87,12 +87,14 @@ std::string makeDisplay(const Entry& entry)
 
 int main(int argc, char* argv[])
 {
-	std::string command = std::string("gnumake -qprR -f");
-	for(int c = 0; c < argc; c++)
+	std::string command;
+	for(int c = 1; c < argc; c++)
 	{
-		command+= std::string(argv[1]) + " ";
+		command+= std::string(argv[c]) + " ";
 	}
-	command+=std::string(" | grep -A999999 \"# Files\"");
+	command+=std::string(" -qprR | grep -A999999 \"# Files\"");
+   
+   fprintf(stderr, "Command: %s\n", command.c_str());
 	
     std::string line;
     FILE* inPipe = popen(command.c_str(), "r");
